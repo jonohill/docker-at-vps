@@ -1,0 +1,11 @@
+services:
+
+    tailscale:
+        image: jonoh/tailscale:1.12.1
+        devices:
+            - /dev/net/tun:/dev/net/tun
+        network_mode: host
+        privileged: true
+        environment:
+            - AUTH_KEY=${TAILSCALE_AUTH_KEY}
+        command: --hostname=larry
