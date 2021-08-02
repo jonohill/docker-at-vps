@@ -23,3 +23,12 @@ sops -e secrets.env >secrets.enc.env
 export SOPS_AGE_KEY_FILE=/path/to/key.txt
 sops -d secrets.enc.env >secrets.env
 ```
+
+## TODO
+
+- _tailscale_
+- cloudflare dns
+- jotta
+- state backup and restore
+- plex
+- cloudflare tunnel
