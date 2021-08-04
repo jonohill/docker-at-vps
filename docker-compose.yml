@@ -1,13 +1,51 @@
 version: '3.7'
 
+networks:
+    - backup
+
 services:
 
     tailscale:
         image: jonoh/tailscale:1.12.1
         devices:
             - /dev/net/tun:/dev/net/tun
+        volumes:
+            /mnt/data/tailscale:/var/lib/tailscale
         network_mode: host
         privileged: true
         environment:
             - AUTH_KEY=${TAILSCALE_AUTH_KEY}
         command: --hostname=larry
+        restart: always
+
+    rclone_serve_backup:
+        image: rclone/rclone:1.55.1
+        volumes:
+            - /mnt/data/rclone_serve_backup:/config
+            - /tmp/caches/rclone_serve_backup:/root/.cache
+            - ./config/rclone_serve_backup/entrypoint.sh:/entrypoint.sh
+        entrypoint: ./entrypoint.sh
+        environment: 
+            - RCLONE_CONFIG_SEED=${RCLONE_CONFIG_SEED}
+            - RCLONE_SOURCE=jotta:/backup
+        restart: always
+        networks:
+            - backup
+
+    duplicacy_naspool:
+        image: jonoh/duplicacy:2.7.2
+        environment:
+            - BACKUP_CRON=1 * * * *
+            - RUN_JOB_IMMEDIATELY=yes
+            - PRUNE_CRON=34 1 * * sun
+            - SNAPSHOT_ID=larry
+            - DUPLICACY_PASSWORD=${DUPLICACY_PASSWORD}
+            - STORAGE_URL=sftp://rclone_serve_backup:2022//duplicacy
+            - JOB_RANDOM_DELAY=300
+            - PRUNE_KEEP_POLICIES=0:360;30:180;7:30;1:7
+        volumes:
+            - /mnt/data:/data
+            - /mnt/data/duplicacy_naspool/config:/config
+        restart: always
+        networks:
+            - backup
