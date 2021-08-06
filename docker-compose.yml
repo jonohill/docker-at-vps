@@ -76,3 +76,15 @@ services:
             - /dev/fuse
         security_opt:
             - apparmor:unconfined
+
+    cloudflare_plex:
+        image: jonoh/cloudflared:2021.8.1
+        volumes:
+            - /mnt/data/cloudflare_plex:/home/nonroot/.cloudflared
+        environment:
+            - TZ=Pacific/Auckland
+            - NO_AUTOUPDATE=true
+            - TUNNEL_URL=http://plex:32400
+            - CF_TUNNEL_ID=${CF_TUNNEL_ID}
+        restart: always
+        command: tunnel run ${CF_TUNNEL_ID}
