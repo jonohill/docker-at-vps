@@ -62,7 +62,7 @@ services:
             - RCLONE_MOUNT_TARGET=/data/plex-media
             - FILEBOT_TMP_OUTPUT=/data/filebot-temp
         ports: 
-            - 32400/32400
+            - 32400:32400
         volumes:
             - /mnt/data/plex:/config
             - /tmp/plex-transcode:/transcode
