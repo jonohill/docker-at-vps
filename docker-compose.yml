@@ -55,7 +55,7 @@ services:
         environment:
             - TZ=Pacific/Auckland
             - HOSTNAME=larry
-            - ALLOWED_NETWORKS=100.64.0.0/10
+            - PLEX_CLAIM=${PLEX_CLAIM}
             - INCOMING_DIR=/data/incoming
             - RCLONE_MOUNT_DIR=jotta:/plex-media
             - RCLONE_MOUNT_CACHE_DIR=/caches/rclone_plex
