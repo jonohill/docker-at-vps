@@ -6,7 +6,7 @@ networks:
 services:
 
     tailscale:
-        image: jonoh/tailscale:1.12.1
+        image: jonoh/tailscale:1.12.3
         devices:
             - /dev/net/tun:/dev/net/tun
         volumes:
