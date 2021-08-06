@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 RCLONE_CONF=/config/rclone/rclone.conf
 
