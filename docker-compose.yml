@@ -10,7 +10,7 @@ services:
         devices:
             - /dev/net/tun:/dev/net/tun
         volumes:
-            /mnt/data/tailscale:/var/lib/tailscale
+            - /mnt/data/tailscale:/var/lib/tailscale
         network_mode: host
         privileged: true
         environment:
