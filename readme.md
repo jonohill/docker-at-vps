@@ -28,7 +28,6 @@ sops -d secrets.enc.env >secrets.env
 
 - ~tailscale~
 - ~backup~
-- cloudflare dns
-- jotta
-- plex
+- ~jotta~
+- _plex_
 - cloudflare tunnel

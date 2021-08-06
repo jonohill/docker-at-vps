@@ -49,3 +49,29 @@ services:
         restart: always
         networks:
             - backup
+
+    plex:
+        image: jonoh/nas-plex:v0.0.29
+        environment:
+            - TZ=Pacific/Auckland
+            - HOSTNAME=larry
+            - ALLOWED_NETWORKS=100.64.0.0/10
+            - INCOMING_DIR=/data/incoming
+            - RCLONE_MOUNT_DIR=jotta:/plex-media
+            - RCLONE_MOUNT_CACHE_DIR=/caches/rclone_plex
+            - RCLONE_MOUNT_TARGET=/data/plex-media
+            - FILEBOT_TMP_OUTPUT=/data/filebot-temp
+        network_mode: host    
+        volumes:
+            - /mnt/data/plex:/config
+            - /tmp/plex-transcode:/transcode
+            - /tmp/plex:/tmp
+            - /tmp/caches/plex:/caches
+            - /tmp/filebot:/data/filebot-temp
+        restart: always
+        cap_add:
+            - SYS_ADMIN
+        devices:
+            - /dev/fuse
+        security_opt:
+            - apparmor:unconfined
