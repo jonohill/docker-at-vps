@@ -24,7 +24,7 @@ services:
             - /mnt/data/rclone_serve_backup:/config
             - /tmp/caches/rclone_serve_backup:/root/.cache
             - ./config/rclone_serve_backup/entrypoint.sh:/entrypoint.sh
-        entrypoint: ./entrypoint.sh
+        entrypoint: /entrypoint.sh
         environment: 
             - RCLONE_CONFIG_SEED=${RCLONE_CONFIG_SEED}
             - RCLONE_SOURCE=jotta:/backup
