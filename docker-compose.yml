@@ -19,7 +19,7 @@ services:
         restart: always
 
     rclone_serve_backup:
-        image: rclone/rclone:1.55.1
+        image: rclone/rclone:1.56.0
         volumes:
             - /mnt/data/rclone_serve_backup:/config
             - /tmp/caches/rclone_serve_backup:/root/.cache
