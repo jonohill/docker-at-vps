@@ -15,7 +15,7 @@ services:
         privileged: true
         environment:
             - AUTH_KEY=${TAILSCALE_AUTH_KEY}
-        command: --hostname=larry
+        command: --hostname=larry --exit-node
         restart: always
 
     rclone_serve_backup:
