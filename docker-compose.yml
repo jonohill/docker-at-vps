@@ -53,7 +53,7 @@ services:
             - backup
 
     plex:
-        image: jonoh/nas-plex:v0.0.29
+        image: jonoh/nas-plex:v0.0.31
         environment:
             - TZ=Pacific/Auckland
             - HOSTNAME=larry
@@ -62,7 +62,6 @@ services:
             - RCLONE_MOUNT_DIR=jotta:/plex-media
             - RCLONE_MOUNT_CACHE_DIR=/caches/rclone_plex
             - RCLONE_MOUNT_TARGET=/data/plex-media
-            - FILEBOT_TMP_OUTPUT=/data/filebot-temp
         ports: 
             - 32400:32400
         volumes:
@@ -70,7 +69,6 @@ services:
             - /tmp/plex-transcode:/transcode
             - /tmp/plex:/tmp
             - /tmp/caches/plex:/caches
-            - /tmp/filebot:/data/filebot-temp
         restart: always
         cap_add:
             - SYS_ADMIN
