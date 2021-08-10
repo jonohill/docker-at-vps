@@ -78,7 +78,7 @@ services:
             - apparmor:unconfined
 
     cloudflare_plex:
-        image: jonoh/cloudflared:2021.8.1
+        image: jonoh/cloudflared:2021.8.2
         volumes:
             - /mnt/data/cloudflare_plex:/home/nonroot/.cloudflared
         environment:
