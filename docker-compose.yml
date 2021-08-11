@@ -68,7 +68,7 @@ services:
             - /mnt/data/plex:/config
             - /tmp/plex-transcode:/transcode
             - /tmp/plex:/tmp
-            - /tmp/caches/plex:/caches
+            - /tmp/caches/plex:/caches/rclone_plex
         restart: always
         cap_add:
             - SYS_ADMIN
