@@ -53,7 +53,7 @@ services:
             - backup
 
     plex:
-        image: jonoh/nas-plex:v0.0.31
+        image: jonoh/nas-plex:v0.0.32
         environment:
             - TZ=Pacific/Auckland
             - HOSTNAME=larry
