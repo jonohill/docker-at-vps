@@ -62,7 +62,7 @@ services:
             - RCLONE_MOUNT_DIR=jotta:/plex-media
             - RCLONE_MOUNT_CACHE_DIR=/caches/rclone_plex
             - RCLONE_MOUNT_TARGET=/data/plex-media
-            = RCLONE_CACHE_MAX_SIZE=25G
+            - RCLONE_CACHE_MAX_SIZE=25G
         ports: 
             - 32400:32400
         volumes:
