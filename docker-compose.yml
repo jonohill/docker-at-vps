@@ -106,3 +106,27 @@ services:
             - 1080:1080
         dns:
             - 1.1.1.1
+
+    qbt:
+        image: jonoh/nas-qbittorrent:v0.0.11
+        restart: always
+        environment:
+            - TZ=Pacific/Auckland
+            - WEBUI_PORT=443
+            - PUID=1001
+            - PGID=1001
+        volumes:
+            - /mnt/data/qbt:/config
+            - /mnt/downloads:/downloads
+
+    cloudflare_qbt:
+        image: jonoh/cloudflared:2021.8.2
+        volumes:
+            - /mnt/data/cloudflare_qbt:/home/nonroot/.cloudflared
+        environment:
+            - TZ=Pacific/Auckland
+            - NO_AUTOUPDATE=true
+            - TUNNEL_URL=http://qbt:443
+            - CF_QBT_TUNNEL_ID=${CF_QBT_TUNNEL_ID}
+        restart: always
+        command: tunnel run ${CF_QBT_TUNNEL_ID}
