@@ -3,6 +3,14 @@ version: '3.7'
 networks:
     backup: {}
 
+# Images which require special regex handling for renovate
+x-images:
+    # Hardcodes version 3 because only 3 version parts are supported
+    # renovate: versioning=regex:^3\.(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-ls\d+$
+    - &SONARR_IMAGE linuxserver/sonarr:3.0.6.1265-ls111
+    # renovate: versioning=regex:^v(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-ls\d+$
+    - &JACKETT_IMAGE linuxserver/jackett:v0.18.407-ls36
+
 services:
 
     tailscale:
@@ -130,3 +138,27 @@ services:
             - CF_QBT_TUNNEL_ID=${CF_QBT_TUNNEL_ID}
         restart: always
         command: tunnel run ${CF_QBT_TUNNEL_ID}
+
+    jackett:
+        image: *JACKETT_IMAGE
+        volumes:
+            - /mnt/data/jackett:/config
+            - /tmp/jackett:/downloads
+        environment:
+            - PGID=1000
+            - PUID=1000
+            - TZ=Pacific/Auckland
+        restart: always
+
+    cloudflare_jackett:
+        image: jonoh/cloudflared:2021.8.2
+        volumes:
+            - /mnt/data/cloudflare_jackett:/config
+        environment:
+            - TZ=Pacific/Auckland
+            - TUNNEL_URL=http://jackett:443
+            - ACCOUNT_ID=${CF_ACCOUNT_ID}
+            - TUNNEL_NAME=jackett
+            - TUNNEL_ID=${JACKETT_TUNNEL_ID}
+            - TUNNEL_SECRET=${JACKETT_TUNNEL_SECRET}
+        restart: always
