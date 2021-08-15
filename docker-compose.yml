@@ -156,7 +156,7 @@ services:
             - /mnt/data/cloudflare_jackett:/config
         environment:
             - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://jackett:443
+            - TUNNEL_URL=http://jackett:9117
             - ACCOUNT_ID=${CF_ACCOUNT_ID}
             - TUNNEL_NAME=jackett
             - TUNNEL_ID=${JACKETT_TUNNEL_ID}
