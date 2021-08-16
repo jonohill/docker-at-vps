@@ -115,6 +115,19 @@ services:
         dns:
             - 1.1.1.1
 
+    rclone_move_media:
+        image: rclone/rclone:1.55.1
+        volumes:
+            - /mnt/tmp/plex-media:/source
+            - /mnt/data/rclone_move_media:/config
+            - ./config/rclone_move_media/entrypoint:/entrypoint
+        environment:
+            - RCLONE_CONFIG_SEED=${RCLONE_MOVE_MEDIA_CONF}
+            - SOURCE=/source
+            - DEST=jotta:/plex-media
+        entrypoint: /entrypoint
+        restart: always
+
     qbt:
         image: jonoh/nas-qbittorrent:v0.0.11
         restart: always
@@ -162,3 +175,5 @@ services:
             - TUNNEL_ID=${JACKETT_TUNNEL_ID}
             - TUNNEL_SECRET=${JACKETT_TUNNEL_SECRET}
         restart: always
+
+

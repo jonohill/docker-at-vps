@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+set -e
+
+RCLONE_CONF=/config/rclone/rclone.conf
+
+if [ ! -f "$RCLONE_CONF" ]; then
+    echo "$RCLONE_CONFIG_SEED" | base64 -d >"$RCLONE_CONF"
+fi
+
+
+while true; do
+    # if dir not empty
+    if [ "$(ls -A "$SOURCE")" ]; then
+        nice -n 10 \
+            rclone \
+                move "$SOURCE" "$DEST" \
+                --delete-empty-src-dirs
+    else
+        sleep 60
+    fi
+done
