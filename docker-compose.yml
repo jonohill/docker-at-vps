@@ -12,7 +12,7 @@ x-images:
     - &JACKETT_IMAGE linuxserver/jackett:v0.18.407-ls36
 
 x-base: &base
-    depends_on: [cloudflare_dns]
+    depends_on: cloudflare_dns
     dns: cloudflare_dns
     restart: always
 
