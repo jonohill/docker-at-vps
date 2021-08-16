@@ -5,6 +5,7 @@ set -e
 RCLONE_CONF=/config/rclone/rclone.conf
 
 if [ ! -f "$RCLONE_CONF" ]; then
+    mkdir -p "$(dirname "$RCLONE_CONF")"
     echo "$RCLONE_CONFIG_SEED" | base64 -d >"$RCLONE_CONF"
 fi
 
