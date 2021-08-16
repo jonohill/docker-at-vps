@@ -11,19 +11,9 @@ x-images:
     # renovate: versioning=regex:^v(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-ls\d+$
     - &JACKETT_IMAGE linuxserver/jackett:v0.18.407-ls36
 
-x-base: &base
-    depends_on: cloudflare_dns
-    dns: cloudflare_dns
-    restart: always
-
 services:
 
-    cloudflare_dns:
-        image: jonoh/cloudflared:2021.8.2
-        command: proxy-dns --address 0.0.0.0
-
     tailscale:
-        << : *base
         image: jonoh/tailscale:1.12.3
         devices:
             - /dev/net/tun:/dev/net/tun
@@ -34,9 +24,9 @@ services:
         environment:
             - AUTH_KEY=${TAILSCALE_AUTH_KEY}
         command: --hostname=larry --exit-node
+        restart: always
 
     rclone_serve_backup:
-        << : *base
         image: rclone/rclone:1.56.0
         volumes:
             - /mnt/data/rclone_serve_backup:/config
@@ -46,11 +36,11 @@ services:
         environment: 
             - RCLONE_CONFIG_SEED=${RCLONE_CONFIG_SEED}
             - RCLONE_SOURCE=jotta:/backup
+        restart: always
         networks:
             - backup
 
     duplicacy:
-        << : *base
         image: jonoh/duplicacy:2.7.2
         environment:
             - BACKUP_CRON=1 * * * *
@@ -66,11 +56,11 @@ services:
             - /mnt/data:/data
             - /mnt/data/duplicacy_naspool/config:/config
             - ./config/duplicacy/pre_backup.sh:/usr/local/bin/pre_backup.sh
+        restart: always
         networks:
             - backup
 
     plex:
-        << : *base
         image: jonoh/nas-plex:v0.0.36
         environment:
             - TZ=Pacific/Auckland
@@ -88,6 +78,7 @@ services:
             - /tmp/plex-transcode:/transcode
             - /tmp/plex:/tmp
             - /tmp/caches/plex:/caches/rclone_plex
+        restart: always
         cap_add:
             - SYS_ADMIN
         devices:
@@ -96,7 +87,6 @@ services:
             - apparmor:unconfined
 
     cloudflare_plex:
-        << : *base
         image: jonoh/cloudflared:2021.8.2
         volumes:
             - /mnt/data/cloudflare_plex:/home/nonroot/.cloudflared
@@ -105,11 +95,12 @@ services:
             - NO_AUTOUPDATE=true
             - TUNNEL_URL=http://plex:32400
             - CF_TUNNEL_ID=${CF_TUNNEL_ID}
+        restart: always
         command: tunnel run ${CF_TUNNEL_ID}
 
     getflix_proxy:
-        << : *base
         image: jonoh/openvpn-socks:2.5.2
+        restart: always
         cap_add:
             - NET_ADMIN
         devices:
@@ -121,9 +112,10 @@ services:
             - ./config/getflix_proxy/config.ovpn:/config/config.ovpn
         ports:
             - 1080:1080
+        dns:
+            - 1.1.1.1
 
     rclone_move_media:
-        << : *base
         image: rclone/rclone:1.55.1
         volumes:
             - /mnt/tmp/plex-media:/source
@@ -134,10 +126,11 @@ services:
             - SOURCE=/source
             - DEST=jotta:/plex-media
         entrypoint: /entrypoint
+        restart: always
 
     qbt:
-        << : *base
         image: jonoh/nas-qbittorrent:v0.0.11
+        restart: always
         environment:
             - TZ=Pacific/Auckland
             - WEBUI_PORT=443
@@ -148,7 +141,6 @@ services:
             - /mnt/downloads:/downloads
 
     cloudflare_qbt:
-        << : *base
         image: jonoh/cloudflared:2021.8.2
         volumes:
             - /mnt/data/cloudflare_qbt:/home/nonroot/.cloudflared
@@ -157,10 +149,10 @@ services:
             - NO_AUTOUPDATE=true
             - TUNNEL_URL=http://qbt:443
             - CF_QBT_TUNNEL_ID=${CF_QBT_TUNNEL_ID}
+        restart: always
         command: tunnel run ${CF_QBT_TUNNEL_ID}
 
     jackett:
-        << : *base
         image: *JACKETT_IMAGE
         volumes:
             - /mnt/data/jackett:/config
@@ -169,9 +161,9 @@ services:
             - PGID=1000
             - PUID=1000
             - TZ=Pacific/Auckland
+        restart: always
 
     cloudflare_jackett:
-        << : *base
         image: jonoh/cloudflared:2021.8.2
         volumes:
             - /mnt/data/cloudflare_jackett:/config
@@ -182,5 +174,6 @@ services:
             - TUNNEL_NAME=jackett
             - TUNNEL_ID=${JACKETT_TUNNEL_ID}
             - TUNNEL_SECRET=${JACKETT_TUNNEL_SECRET}
+        restart: always
 
 
