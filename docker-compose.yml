@@ -128,6 +128,16 @@ services:
         entrypoint: /entrypoint
         restart: always
 
+    filebot:
+        image: jonoh/nas-filebot:v0.0.3
+        environment:
+            - TZ=Pacific/Auckland
+        volumes:
+            - /mnt/data/filebot:/config
+            - /mnt/downloads:/input
+            - /mnt/tmp/plex-media:/output
+        restart: always
+
     qbt:
         image: jonoh/nas-qbittorrent:v0.0.13
         restart: always
