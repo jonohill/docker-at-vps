@@ -118,7 +118,7 @@ services:
     rclone_move_media:
         image: rclone/rclone:1.55.1
         volumes:
-            - /mnt/tmp/plex-media:/source
+            - /mnt/data/tmp/plex-media:/source
             - /mnt/data/rclone_move_media:/config
             - ./config/rclone_move_media/entrypoint:/entrypoint
         environment:
@@ -134,8 +134,8 @@ services:
             - TZ=Pacific/Auckland
         volumes:
             - /mnt/data/filebot:/config
-            - /mnt/downloads:/input
-            - /mnt/tmp/plex-media:/output
+            - /mnt/data/downloads:/input
+            - /mnt/data/tmp/plex-media:/output
         restart: always
 
     qbt:
@@ -148,7 +148,7 @@ services:
             - PGID=1001
         volumes:
             - /mnt/data/qbt:/config
-            - /mnt/downloads:/downloads
+            - /mnt/data/downloads:/downloads
 
     cloudflare_qbt:
         image: jonoh/cloudflared:2021.8.2
@@ -190,7 +190,7 @@ services:
         image: *SONARR_IMAGE
         volumes:
             - /mnt/data/sonarr:/config
-            - /mnt/downloads:/downloads
+            - /mnt/data/downloads:/downloads
         environment:
             - PGID=1000
             - PUID=1000
