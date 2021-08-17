@@ -186,4 +186,26 @@ services:
             - TUNNEL_SECRET=${JACKETT_TUNNEL_SECRET}
         restart: always
 
+    sonarr:
+        image: *SONARR_IMAGE
+        volumes:
+            - /mnt/data/sonarr:/config
+            - /mnt/downloads:/downloads
+        environment:
+            - PGID=1000
+            - PUID=1000
+            - TZ=Pacific/Auckland
+        restart: always
 
+    cloudflare_sonarr:
+        image: jonoh/cloudflared:2021.8.2
+        volumes:
+            - /mnt/data/cloudflare_sonarr:/config
+        environment:
+            - TZ=Pacific/Auckland
+            - TUNNEL_URL=http://sonarr:8989
+            - ACCOUNT_ID=${CF_ACCOUNT_ID}
+            - TUNNEL_NAME=sonarr
+            - TUNNEL_ID=${SONARR_TUNNEL_ID}
+            - TUNNEL_SECRET=${SONARR_TUNNEL_SECRET}
+        restart: always
