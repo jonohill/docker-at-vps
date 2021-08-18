@@ -13,6 +13,10 @@ x-images:
 
 services:
 
+    # ~~~~~~~~~~~~ 
+    # Server admin
+    # ~~~~~~~~~~~~ 
+
     tailscale:
         image: jonoh/tailscale:1.12.3
         devices:
@@ -59,6 +63,10 @@ services:
         restart: always
         networks:
             - backup
+
+    # ~~~~~
+    # Media
+    # ~~~~~ 
 
     plex:
         image: jonoh/nas-plex:v0.0.36
@@ -209,4 +217,28 @@ services:
             - TUNNEL_NAME=sonarr
             - TUNNEL_ID=${SONARR_TUNNEL_ID}
             - TUNNEL_SECRET=${SONARR_TUNNEL_SECRET}
+        restart: always
+
+    # ~~~~~
+    # Other
+    # ~~~~~
+
+    postgres:
+        image: postgres:13.3
+        volumes:
+            - /mnt/data/postgres/db:/var/lib/postgresql/data
+        restart: always
+
+    radio_db:
+        image: jonoh/radio_db:0.3.8
+        environment:
+            - RDB_DATABASE_HOST=radio_db_postgres
+            - RDB_DATABASE_NAME=radio_db
+            - RDB_DATABASE_USERNAME=radio_db
+            - RDB_DATABASE_PASSWORD=${RDB_DB_PASSWORD}
+            - RDB_SPOTIFY_CLIENT_ID=${RDB_SPOTIFY_CLIENT_ID}
+            - RDB_SPOTIFY_CLIENT_SECRET=${RDB_SPOTIFY_CLIENT_SECRET}
+            - RDB_SPOTIFY_AUTH_SEED=${RDB_SPOTIFY_AUTH_SEED}
+        volumes:
+            - /mnt/data/radio_db/config.yml:/app/config.yml
         restart: always
