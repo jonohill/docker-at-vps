@@ -132,6 +132,7 @@ services:
         image: jonoh/nas-filebot:v0.0.3
         environment:
             - TZ=Pacific/Auckland
+            - LANG=C.UTF-8
         volumes:
             - /mnt/data/filebot:/config
             - /mnt/data/downloads:/input
