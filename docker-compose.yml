@@ -232,7 +232,7 @@ services:
     radio_db:
         image: jonoh/radio_db:0.3.8
         environment:
-            - RDB_DATABASE_HOST=radio_db_postgres
+            - RDB_DATABASE_HOST=postgres
             - RDB_DATABASE_NAME=radio_db
             - RDB_DATABASE_USERNAME=radio_db
             - RDB_DATABASE_PASSWORD=${RDB_DB_PASSWORD}
