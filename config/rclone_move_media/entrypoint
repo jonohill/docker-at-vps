@@ -16,6 +16,7 @@ while true; do
         nice -n 10 \
             rclone \
                 move "$SOURCE" "$DEST" \
+                --progress \
                 --delete-empty-src-dirs
     else
         sleep 60
