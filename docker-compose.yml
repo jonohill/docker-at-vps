@@ -8,8 +8,6 @@ x-images:
     # Hardcodes version 3 because only 3 version parts are supported
     # renovate: versioning=regex:^3\.(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-ls\d+$
     - &SONARR_IMAGE linuxserver/sonarr:3.0.6.1265-ls111
-    # renovate: versioning=regex:^v(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-ls\d+$
-    - &JACKETT_IMAGE linuxserver/jackett:v0.18.407-ls36
 
 services:
 
@@ -172,7 +170,7 @@ services:
         command: tunnel run ${CF_QBT_TUNNEL_ID}
 
     jackett:
-        image: *JACKETT_IMAGE
+        image: jonoh/nas-jackett:v0.0.2
         volumes:
             - /mnt/data/jackett:/config
             - /tmp/jackett:/downloads
