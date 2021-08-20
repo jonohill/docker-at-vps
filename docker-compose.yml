@@ -222,7 +222,7 @@ services:
     # ~~~~~
 
     postgres:
-        image: postgres:13.3
+        image: postgres:13.4
         volumes:
             - /mnt/data/postgres/db:/var/lib/postgresql/data
         restart: always
