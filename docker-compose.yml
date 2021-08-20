@@ -135,7 +135,7 @@ services:
         restart: always
 
     filebot:
-        image: jonoh/nas-filebot:v0.0.5
+        image: jonoh/nas-filebot:v0.0.6
         environment:
             - TZ=Pacific/Auckland
             - LANG=C.UTF-8
@@ -239,4 +239,25 @@ services:
             - RDB_SPOTIFY_AUTH_SEED=${RDB_SPOTIFY_AUTH_SEED}
         volumes:
             - /mnt/data/radio_db/config.yml:/app/config.yml
+        restart: always
+
+    twitterdedupe-redis:
+        image: redis:6.2.5
+        volumes:
+            - /mnt/data/twitterdedupe:/data
+        command: redis-server --appendonly yes
+        restart: always
+
+    twitterdedupe-verge:
+        image: jonoh/twitter-dedupe:0.7.2
+        environment:
+            - TWITTER_CONSUMER_KEY=${TWITTER_CONSUMER_KEY}
+            - TWITTER_CONSUMER_SECRET=${TWITTER_CONSUMER_SECRET}
+            - TWITTER_ACCESS_TOKEN=${TWITTER_ACCESS_TOKEN}
+            - TWITTER_ACCESS_TOKEN_SECRET=${TWITTER_ACCESS_TOKEN_SECRET}
+            - REDISTOGO_URL=redis://twitterdedupe-redis:6379
+            - TWITTER_SCREEN_NAME=thevergelite
+            - RETWEET=1
+            - WAIT_INTERVAL=300 # Time to wait between polls, in seconds
+            - LOG_LEVEL=WARN # Or INFO, OR DEBUG, etc.
         restart: always
