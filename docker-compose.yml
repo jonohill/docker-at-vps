@@ -104,23 +104,6 @@ services:
         restart: always
         command: tunnel run ${CF_TUNNEL_ID}
 
-    getflix_proxy:
-        image: jonoh/openvpn-socks:2.5.2
-        restart: always
-        cap_add:
-            - NET_ADMIN
-        devices:
-            - /dev/net/tun
-        environment:
-            - OPENVPN_USERNAME=${GETFLIX_USERNAME}
-            - OPENVPN_PASSWORD=${GETFLIX_PASSWORD}
-        volumes:
-            - ./config/getflix_proxy/config.ovpn:/config/config.ovpn
-        ports:
-            - 1080:1080
-        dns:
-            - 1.1.1.1
-
     rclone_move_media:
         image: rclone/rclone:1.55.1
         volumes:
