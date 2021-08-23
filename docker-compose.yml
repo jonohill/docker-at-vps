@@ -131,6 +131,10 @@ services:
     qbt:
         image: jonoh/nas-qbittorrent:v0.0.15
         restart: always
+        devices: 
+            - /dev/net/tun
+        cap_add: 
+            - NET_ADMIN
         environment:
             - TZ=Pacific/Auckland
             - WEBUI_PORT=443
