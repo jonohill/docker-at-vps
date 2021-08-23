@@ -128,25 +128,25 @@ services:
             - /mnt/data/tmp/plex-media:/output
         restart: always
 
-    qbt:
-        image: jonoh/nas-qbittorrent:v0.0.15
-        restart: always
-        devices: 
-            - /dev/net/tun
-        cap_add: 
-            - NET_ADMIN
-        environment:
-            - TZ=Pacific/Auckland
-            - WEBUI_PORT=443
-            - PUID=1001
-            - PGID=1001
-            - OPENVPN_USERNAME=${GETFLIX_USERNAME}
-            - OPENVPN_PASSWORD=${GETFLIX_PASSWORD}
-            - OPENVPN_CONFIG_FILE=/config.ovpn
-        volumes:
-            - /mnt/data/qbt:/config
-            - /mnt/data/downloads:/downloads
-            - ./config/getflix_proxy/config.ovpn:/config.ovpn
+    # qbt:
+    #     image: jonoh/nas-qbittorrent:v0.0.15
+    #     restart: always
+    #     devices: 
+    #         - /dev/net/tun
+    #     cap_add: 
+    #         - NET_ADMIN
+    #     environment:
+    #         - TZ=Pacific/Auckland
+    #         - WEBUI_PORT=443
+    #         - PUID=1001
+    #         - PGID=1001
+    #         - OPENVPN_USERNAME=${GETFLIX_USERNAME}
+    #         - OPENVPN_PASSWORD=${GETFLIX_PASSWORD}
+    #         - OPENVPN_CONFIG_FILE=/config.ovpn
+    #     volumes:
+    #         - /mnt/data/qbt:/config
+    #         - /mnt/data/downloads:/downloads
+    #         - ./config/getflix_proxy/config.ovpn:/config.ovpn
 
     cloudflare_qbt:
         image: jonoh/cloudflared:2021.8.2
