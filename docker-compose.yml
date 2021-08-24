@@ -139,7 +139,6 @@ services:
             - ./config/getflix_proxy/config.ovpn:/etc/openvpn/custom/default.ovpn
         environment:
             - TZ=Pacific/Auckland
-            - TRANSMISSION_WEB_UI=flood-for-transmission
             - OPENVPN_PROVIDER=custom
             - OPENVPN_USERNAME=${GETFLIX_USERNAME}
             - OPENVPN_PASSWORD=${GETFLIX_PASSWORD}
