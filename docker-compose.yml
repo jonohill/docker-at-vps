@@ -185,7 +185,7 @@ services:
         image: *SONARR_IMAGE
         volumes:
             - /mnt/data/sonarr:/config
-            - /mnt/data/downloads:/downloads
+            - /mnt/data/downloads:/data/completed
         environment:
             - PGID=1000
             - PUID=1000
