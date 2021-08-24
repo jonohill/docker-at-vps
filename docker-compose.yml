@@ -128,25 +128,23 @@ services:
             - /mnt/data/tmp/plex-media:/output
         restart: always
 
-    # qbt:
-    #     image: jonoh/nas-qbittorrent:v0.0.17
-    #     restart: always
-    #     devices: 
-    #         - /dev/net/tun
-    #     cap_add: 
-    #         - NET_ADMIN
-    #     environment:
-    #         - TZ=Pacific/Auckland
-    #         - WEBUI_PORT=443
-    #         - PUID=1001
-    #         - PGID=1001
-    #         - OPENVPN_USERNAME=${GETFLIX_USERNAME}
-    #         - OPENVPN_PASSWORD=${GETFLIX_PASSWORD}
-    #         - OPENVPN_CONFIG_FILE=/config.ovpn
-    #     volumes:
-    #         - /mnt/data/qbt:/config
-    #         - /mnt/data/downloads:/downloads
-    #         - ./config/getflix_proxy/config.ovpn:/config.ovpn
+    bt:
+        image: haugene/transmission-openvpn:3.7
+        cap_add:
+            - NET_ADMIN
+        volumes:
+            - /mnt/data/bt:/data/transmission-home
+            - /mnt/data/downloads-incomplete:/data/incomplete
+            - /mnt/data/downloads:/data/completed
+            - ./config/getflix_proxy/config.ovpn:/etc/openvpn/custom/default.ovpn
+        environment:
+            - TZ=Pacific/Auckland
+            - TRANSMISSION_WEB_UI=flood-for-transmission
+            - OPENVPN_PROVIDER=custom
+            - OPENVPN_USERNAME=${GETFLIX_USERNAME}
+            - OPENVPN_PASSWORD=${GETFLIX_PASSWORD}
+        ports:
+            - 9091:9091
 
     cloudflare_qbt:
         image: jonoh/cloudflared:2021.8.2
@@ -155,7 +153,7 @@ services:
         environment:
             - TZ=Pacific/Auckland
             - NO_AUTOUPDATE=true
-            - TUNNEL_URL=http://qbt:443
+            - TUNNEL_URL=http://bt:9091
             - CF_QBT_TUNNEL_ID=${CF_QBT_TUNNEL_ID}
         restart: always
         command: tunnel run ${CF_QBT_TUNNEL_ID}
