@@ -62,12 +62,23 @@ services:
         networks:
             - backup
 
+    autoheal:
+        image: willfarrell/autoheal:1.2.0
+        restart: always
+        environment: 
+            - AUTOHEAL_CONTAINER_LABEL=all
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+
     # ~~~~~
     # Media
     # ~~~~~ 
 
     plex:
         image: jonoh/nas-plex:v0.0.36
+        restart: always
+        labels:
+            - autoheal=true
         environment:
             - TZ=Pacific/Auckland
             - HOSTNAME=larry
@@ -84,7 +95,6 @@ services:
             - /tmp/plex-transcode:/transcode
             - /tmp/plex:/tmp
             - /tmp/caches/plex:/caches/rclone_plex
-        restart: always
         cap_add:
             - SYS_ADMIN
         devices:
@@ -130,6 +140,9 @@ services:
 
     bt:
         image: haugene/transmission-openvpn:3.7
+        restart: always
+        labels:
+            - autoheal=true
         cap_add:
             - NET_ADMIN
         volumes:
