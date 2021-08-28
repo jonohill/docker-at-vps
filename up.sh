@@ -3,4 +3,4 @@
 set -e
 
 git pull
-SOPS_AGE_KEY_FILE=key.txt sops exec-env secrets.enc.env 'docker-compose up -d'
+SOPS_AGE_KEY_FILE=key.txt sops exec-env secrets.enc.env 'docker-compose up --remove-orphans -d'
