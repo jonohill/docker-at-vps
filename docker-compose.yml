@@ -138,7 +138,7 @@ services:
             - /mnt/data/tmp/plex-media:/output
         restart: always
 
-    bt:
+    transmission:
         image: haugene/transmission-openvpn:3.7
         restart: always
         labels:
@@ -155,20 +155,27 @@ services:
             - OPENVPN_PROVIDER=custom
             - OPENVPN_USERNAME=${GETFLIX_USERNAME}
             - OPENVPN_PASSWORD=${GETFLIX_PASSWORD}
-        ports:
-            - 9091:9091
 
-    cloudflare_qbt:
+    cloudflare_transmission:
         image: jonoh/cloudflared:2021.8.2
+        restart: always
         volumes:
-            - /mnt/data/cloudflare_qbt:/home/nonroot/.cloudflared
+            - /mnt/data/cloudflare_transmission:/config
         environment:
             - TZ=Pacific/Auckland
-            - NO_AUTOUPDATE=true
-            - TUNNEL_URL=http://bt:9091
-            - CF_QBT_TUNNEL_ID=${CF_QBT_TUNNEL_ID}
+            - TUNNEL_URL=http://transmission:9091
+            - ACCOUNT_ID=${CF_ACCOUNT_ID}
+            - TUNNEL_NAME=transmission
+            - TUNNEL_ID=${TRANSMISSION_TUNNEL_ID}
+            - TUNNEL_SECRET=${TRANSMISSION_TUNNEL_SECRET}
+    
+    transmission_cleanup:
+        image: jonoh/transmission-cleanup:v0.0.1
         restart: always
-        command: tunnel run ${CF_QBT_TUNNEL_ID}
+        volumes:
+            - /mnt/data/downloads:/cleanup
+        environment: 
+            - TRANSMISSION_HOST=transmission
 
     jackett:
         image: jonoh/nas-jackett:v0.0.2
