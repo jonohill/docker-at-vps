@@ -94,7 +94,7 @@ services:
         volumes:
             - /mnt/data/plex:/config
             - /tmp/plex-transcode:/transcode
-            - /tmp/plex:/tmp
+            - /tmp:/tmp
             - /tmp/caches/plex:/caches/rclone_plex
         cap_add:
             - SYS_ADMIN
