@@ -203,7 +203,8 @@ services:
         restart: always
 
     sonarr:
-
+        image: *SONARR_IMAGE
+        volumes:
             - /mnt/data/sonarr:/config
             - /mnt/data/downloads:/data/completed
         environment:
@@ -269,27 +270,3 @@ services:
             - WAIT_INTERVAL=300 # Time to wait between polls, in seconds
             - LOG_LEVEL=WARN # Or INFO, OR DEBUG, etc.
         restart: always
-
-    webtop:
-        image: linuxserver/webtop:ubuntu-xfce
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Pacific/Auckland
-        volumes:
-            - /mnt/data/webtop:/config
-        ports:
-            - 3000:3000
-        shm_size: "1gb"
-        restart: always
-
-    cloudflare_webtop:
-        image: jonoh/cloudflare:2021.8.7
-        environment:
-            - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://webtop:3000
-            - ACCOUNT_ID=${CF_ACCOUNT_ID}
-            - TUNNEL_NAME=webtop
-            - TUNNEL_ID=${WEBTOP_TUNNEL_ID}
-            - TUNNEL_SECRET=${WEBTOP_TUNNEL_SECRET}
-        restart: always     
