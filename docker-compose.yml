@@ -286,6 +286,8 @@ services:
 
     cloudflare_webtop:
         image: jonoh/cloudflared:2021.8.7
+        volumes:
+            - /mnt/data/cloudflare_webtop:/config        
         environment:
             - TZ=Pacific/Auckland
             - TUNNEL_URL=http://webtop:3000
