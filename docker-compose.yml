@@ -285,7 +285,7 @@ services:
         restart: always
 
     cloudflare_webtop:
-        image: jonoh/cloudflare:2021.8.7
+        image: jonoh/cloudflared:2021.8.7
         environment:
             - TZ=Pacific/Auckland
             - TUNNEL_URL=http://webtop:3000
