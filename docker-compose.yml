@@ -233,7 +233,7 @@ services:
     postgres:
         image: postgres:13.4
         volumes:
-            - /mnt/data/postgres/13/data:/var/lib/postgresql/data
+            - /mnt/data/postgresql/13/data:/var/lib/postgresql/data
         restart: always
 
     radio_db:
