@@ -231,9 +231,9 @@ services:
     # ~~~~~
 
     postgres:
-        image: postgres:14.0
+        image: postgres:13.4
         volumes:
-            - /mnt/data/postgres/db:/var/lib/postgresql/data
+            - /mnt/data/postgres/13/data:/var/lib/postgresql/data
         restart: always
 
     radio_db:
