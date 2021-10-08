@@ -16,7 +16,7 @@ services:
     # ~~~~~~~~~~~~ 
 
     tailscale:
-        image: jonoh/tailscale:1.14.6
+        image: jonoh/tailscale:1.16.0
         devices:
             - /dev/net/tun:/dev/net/tun
         volumes:
