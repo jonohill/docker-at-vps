@@ -299,7 +299,8 @@ services:
 
     yt_cast:
         image: jonoh/yt-cast:0.1.1
-        volumes: /tmp/yt_cast:/tmp
+        volumes: 
+            - /tmp/yt_cast:/tmp
         environment:
             - ROCKET_BASE_URL=${YT_CAST_BASE_URL}
             - ROCKET_CHANNEL_WHITELIST=${YT_CAST_CHANNEL_WHITELIST}
