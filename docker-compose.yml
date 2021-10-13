@@ -302,6 +302,7 @@ services:
         volumes: 
             - /tmp/yt_cast:/tmp
         environment:
+            - ROCKET_ADDRESS=0.0.0.0
             - ROCKET_BASE_URL=${YT_CAST_BASE_URL}
             - ROCKET_CHANNEL_WHITELIST=${YT_CAST_CHANNEL_WHITELIST}
         restart: always
