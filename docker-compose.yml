@@ -8,6 +8,8 @@ x-images:
     # Hardcodes version 3 because only 3 version parts are supported
     # renovate: versioning=regex:^3\.(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-ls\d+$
     - &SONARR_IMAGE linuxserver/sonarr:3.0.6.1265-ls111
+    # renovate: versioning=regex:^(?<major>\d+)-0?(?<minor>\d+)-0?(?<patch>\d+)-2$
+    - &PGADMIN_IMAGE dpage/pgadmin4:2021-10-06-2
 
 services:
 
@@ -235,6 +237,30 @@ services:
         volumes:
             - /mnt/data/postgresql/13/data:/var/lib/postgresql/data
         restart: always
+
+    pgadmin:
+        image: *PGADMIN_IMAGE
+        restart: always
+        environment:
+            - TZ=Pacific/Auckland
+            - PGADMIN_DEFAULT_EMAIL=admin@example.com
+            - PGADMIN_DEFAULT_PASSWORD=password
+            - PGADMIN_DISABLE_POSTFIX=True
+        volumes:
+            - /mnt/data/pgadmin:/var/lib/pgadmin
+
+    cloudflare_pgadmin:
+        image: jonoh/cloudflared:2021.9.2
+        restart: always
+        environment:
+            - TZ=Pacific/Auckland
+            - TUNNEL_URL=http://pgadmin:80
+            - ACCOUNT_ID=${CF_ACCOUNT_ID}
+            - TUNNEL_NAME=pgadmin
+            - TUNNEL_ID=${PGADMIN_TUNNEL_ID}
+            - TUNNEL_SECRET=${PGADMIN_TUNNEL_SECRET}
+        volumes:
+            - /mnt/data/cloudflare_pgadmin:/config        
 
     radio_db:
         image: jonoh/radio_db:0.3.10
