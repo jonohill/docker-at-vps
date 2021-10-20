@@ -335,6 +335,7 @@ services:
 
     cloudflare_yt_cast:
         image: jonoh/cloudflared:2021.10.3
+        restart: always
         volumes:
             - /mnt/data/cloudflare_yt_cast:/config
         environment:
@@ -344,4 +345,4 @@ services:
             - TUNNEL_NAME=yt-cast
             - TUNNEL_ID=${YT_CAST_TUNNEL_ID}
             - TUNNEL_SECRET=${YT_CAST_TUNNEL_SECRET}
-        restart: always
+        command: --protocol quic
