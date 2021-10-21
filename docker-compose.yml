@@ -142,7 +142,7 @@ services:
         restart: always
 
     transmission:
-        image: haugene/transmission-openvpn:3.7
+        image: haugene/transmission-openvpn:4.0
         restart: always
         labels:
             - autoheal=true
