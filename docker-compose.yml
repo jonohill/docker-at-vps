@@ -8,8 +8,6 @@ x-images:
     # Hardcodes version 3 because only 3 version parts are supported
     # renovate: versioning=regex:^3\.(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-ls\d+$
     - &SONARR_IMAGE linuxserver/sonarr:3.0.6.1265-ls111
-    # renovate: versioning=regex:^(?<major>\d+)-0?(?<minor>\d+)-0?(?<patch>\d+)-2$
-    - &PGADMIN_IMAGE dpage/pgadmin4:2021-10-06-2
 
 services:
 
@@ -239,7 +237,7 @@ services:
         restart: always
 
     pgadmin:
-        image: *PGADMIN_IMAGE
+        image: dpage/pgadmin4:6.1
         restart: always
         environment:
             - TZ=Pacific/Auckland
