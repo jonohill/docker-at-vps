@@ -348,7 +348,6 @@ services:
     vscode:
         image: jonoh/vscode:v0.0.1
         restart: always
-        network_mode: host
         volumes:
             - /mnt/data:/mnt/data
             - /tmp:/tmp
@@ -361,7 +360,6 @@ services:
     cloudflare_vscode:
         image: jonoh/cloudflared:2021.10.3
         restart: always
-        network_mode: host
         volumes:
             - /mnt/data/cloudflare_vscode:/config
         environment:
