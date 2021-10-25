@@ -57,7 +57,7 @@ services:
         volumes:
             - /mnt/data/rclone_serve_backup:/config
             - /tmp/caches/rclone_serve_backup:/root/.cache
-            - ./config/rclone_serve_backup/entrypoint.sh:/entrypoint.sh
+            - /home/ubuntu/compose/config/rclone_serve_backup/entrypoint.sh:/entrypoint.sh
         entrypoint: /entrypoint.sh
         environment: 
             - RCLONE_CONFIG_SEED=${RCLONE_CONFIG_SEED}
@@ -81,7 +81,7 @@ services:
         volumes:
             - /mnt/data:/data
             - /mnt/data/duplicacy_naspool/config:/config
-            - ./config/duplicacy/pre_backup.sh:/usr/local/bin/pre_backup.sh
+            - /home/ubuntu/compose/config/duplicacy/pre_backup.sh:/usr/local/bin/pre_backup.sh
         restart: always
         networks:
             - backup
@@ -144,7 +144,7 @@ services:
         volumes:
             - /mnt/data/tmp/plex-media:/source
             - /mnt/data/rclone_move_media:/config
-            - ./config/rclone_move_media/entrypoint:/entrypoint
+            - /home/ubuntu/compose/config/rclone_move_media/entrypoint:/entrypoint
         environment:
             - RCLONE_CONFIG_SEED=${RCLONE_MOVE_MEDIA_CONF}
             - SOURCE=/source
@@ -174,7 +174,7 @@ services:
             - /mnt/data/bt:/data/transmission-home
             - /mnt/data/downloads-incomplete:/data/incomplete
             - /mnt/data/downloads:/data/completed
-            - ./config/getflix_proxy/config.ovpn:/etc/openvpn/custom/default.ovpn
+            - /home/ubuntu/compose/config/getflix_proxy/config.ovpn:/etc/openvpn/custom/default.ovpn
         environment:
             - TZ=Pacific/Auckland
             - OPENVPN_PROVIDER=custom
