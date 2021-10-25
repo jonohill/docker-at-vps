@@ -17,7 +17,7 @@ services:
     # ~~~~~~~~~~~~ 
 
     compose_up:
-        image: jonoh/compose-up:v0.0.3
+        image: jonoh/compose-up:v0.0.4
         restart: always
         volumes:
             - /home/ubuntu/compose:/compose
