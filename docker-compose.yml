@@ -16,6 +16,27 @@ services:
     # Server admin
     # ~~~~~~~~~~~~ 
 
+    compose_up:
+        image: jonoh/compose-up:v0.0.3
+        restart: always
+        volumes:
+            - /home/ubuntu/compose:/compose
+            - /var/run/docker:/var/run/docker
+        command: /compose/up.sh
+
+    cloudflare_compose_up:
+        image: jonoh/cloudflared:2021.10.3
+        restart: always
+        volumes:
+            - /mnt/data/cloudflare_compose_up:/config
+        environment:
+            - TZ=Pacific/Auckland
+            - TUNNEL_URL=http://compose_up:8080
+            - ACCOUNT_ID=${CF_ACCOUNT_ID}
+            - TUNNEL_NAME=compose-up
+            - TUNNEL_ID=${COMPOSE_UP_TUNNEL_ID}
+            - TUNNEL_SECRET=${COMPOSE_UP_TUNNEL_SECRET}
+
     tailscale:
         image: jonoh/tailscale:1.16.1
         devices:
@@ -351,7 +372,7 @@ services:
         volumes:
             - /mnt/data:/mnt/data
             - /tmp:/tmp
-            - /mnt/data/repos:/home/workspace
+            - /mnt/data/repos:/home/workspace            
         environment:
             - TZ=Pacific/Auckland
         networks:
