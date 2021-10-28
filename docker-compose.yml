@@ -17,7 +17,7 @@ services:
     # ~~~~~~~~~~~~ 
 
     compose_up:
-        image: jonoh/compose-up:v0.0.4
+        image: jonoh/compose-up:v0.0.5
         restart: always
         environment:
             - DOCKER_HOST=unix:///var/run/docker.sock
