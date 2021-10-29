@@ -203,7 +203,7 @@ services:
             - TRANSMISSION_HOST=transmission
 
     jackett:
-        image: jonoh/nas-jackett:v0.0.9
+        image: jonoh/nas-jackett:v0.0.14
         volumes:
             - /mnt/data/jackett:/config
             - /tmp/jackett:/downloads
