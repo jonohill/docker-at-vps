@@ -202,54 +202,6 @@ services:
         environment: 
             - TRANSMISSION_HOST=transmission
 
-    jackett:
-        image: jonoh/nas-jackett:v0.0.14
-        volumes:
-            - /mnt/data/jackett:/config
-            - /tmp/jackett:/downloads
-        environment:
-            - PGID=1000
-            - PUID=1000
-            - TZ=Pacific/Auckland
-        restart: always
-
-    cloudflare_jackett:
-        image: jonoh/cloudflared:2021.10.3
-        volumes:
-            - /mnt/data/cloudflare_jackett:/config
-        environment:
-            - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://jackett:9117
-            - ACCOUNT_ID=${CF_ACCOUNT_ID}
-            - TUNNEL_NAME=jackett
-            - TUNNEL_ID=${JACKETT_TUNNEL_ID}
-            - TUNNEL_SECRET=${JACKETT_TUNNEL_SECRET}
-        restart: always
-
-    sonarr:
-        image: *SONARR_IMAGE
-        volumes:
-            - /mnt/data/sonarr:/config
-            - /mnt/data/downloads:/data/completed
-        environment:
-            - PGID=1000
-            - PUID=1000
-            - TZ=Pacific/Auckland
-        restart: always
-
-    cloudflare_sonarr:
-        image: jonoh/cloudflared:2021.10.3
-        volumes:
-            - /mnt/data/cloudflare_sonarr:/config
-        environment:
-            - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://sonarr:8989
-            - ACCOUNT_ID=${CF_ACCOUNT_ID}
-            - TUNNEL_NAME=sonarr
-            - TUNNEL_ID=${SONARR_TUNNEL_ID}
-            - TUNNEL_SECRET=${SONARR_TUNNEL_SECRET}
-        restart: always
-
     # ~~~~~
     # Other
     # ~~~~~
