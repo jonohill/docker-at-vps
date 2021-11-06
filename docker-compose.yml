@@ -54,7 +54,7 @@ services:
         restart: always
 
     rclone_serve_backup:
-        image: rclone/rclone:1.56.2
+        image: rclone/rclone:1.57.0
         volumes:
             - /mnt/data/rclone_serve_backup:/config
             - /tmp/caches/rclone_serve_backup:/root/.cache
@@ -141,7 +141,7 @@ services:
         command: tunnel run ${CF_TUNNEL_ID}
 
     rclone_move_media:
-        image: rclone/rclone:1.56.2
+        image: rclone/rclone:1.57.0
         volumes:
             - /mnt/data/tmp/plex-media:/source
             - /mnt/data/rclone_move_media:/config
