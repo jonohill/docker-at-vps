@@ -3,6 +3,7 @@ version: '3.7'
 networks:
     backup: {}
     code: {}
+    ytdlp: {}
 
 # Images which require special regex handling for renovate
 x-images:
@@ -346,3 +347,10 @@ services:
             - TUNNEL_SECRET=${CODE_TUNNEL_SECRET}
         networks:
             - code
+
+    yt-dlp:
+        image: jauderho/yt-dlp:2021.10.22
+        volumes:
+            - /mnt/data/downloads:/downloads
+        networks:
+            - ytdlp
