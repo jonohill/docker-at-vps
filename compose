@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+
+SOPS_AGE_KEY_FILE=key.txt echo sops exec-env secrets.enc.env "docker-compose $(printf '%q ' "$@")"
