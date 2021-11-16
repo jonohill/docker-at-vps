@@ -4,6 +4,7 @@ networks:
     backup: {}
     code: {}
     ytdlp: {}
+    vaultwarden: {}
 
 # Images which require special regex handling for renovate
 x-images:
@@ -354,3 +355,28 @@ services:
             - /mnt/data/downloads:/downloads
         networks:
             - ytdlp
+
+    vaultwarden:
+        image: vaultwarden/server:1.23.0
+        restart: always
+        volumes:
+            - /mnt/data/vaultwarden:/data
+        environment:
+            - DISABLE_ADMIN_TOKEN=true
+        networks:
+            - vaultwarden
+
+    cloudflare_vaultwarden:
+        image: jonoh/cloudflared:2021.11.0
+        restart: always
+        volumes:
+            - /mnt/data/cloudflare_vaultwarden:/config
+        environment:
+            - TZ=Pacific/Auckland
+            - TUNNEL_URL=http://vaultwarden:80
+            - ACCOUNT_ID=${CF_ACCOUNT_ID}
+            - TUNNEL_NAME=vault
+            - TUNNEL_ID=${VAULT_TUNNEL_ID}
+            - TUNNEL_SECRET=${VAULT_TUNNEL_SECRET}
+        networks:
+          - vaultwarden
