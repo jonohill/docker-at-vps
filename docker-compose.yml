@@ -176,12 +176,12 @@ services:
             - /mnt/data/bt:/data/transmission-home
             - /mnt/data/downloads-incomplete:/data/incomplete
             - /mnt/data/downloads:/data/completed
-            - /home/ubuntu/compose/config/getflix_proxy/config.ovpn:/etc/openvpn/custom/default.ovpn
+            - /home/ubuntu/compose/config/ovpn/config.ovpn:/etc/openvpn/custom/default.ovpn
         environment:
             - TZ=Pacific/Auckland
             - OPENVPN_PROVIDER=custom
-            - OPENVPN_USERNAME=${GETFLIX_USERNAME}
-            - OPENVPN_PASSWORD=${GETFLIX_PASSWORD}
+            - OPENVPN_USERNAME=${VPN_USERNAME}
+            - OPENVPN_PASSWORD=${VPN_PASSWORD}
 
     cloudflare_transmission:
         image: jonoh/cloudflared:2021.11.0
