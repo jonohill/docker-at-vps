@@ -54,6 +54,20 @@ services:
         command: --hostname=larry --exit-node
         restart: always
 
+    cloudflare_ssh:
+        image: jonoh/cloudflared:2021.11.0
+        restart: always
+        network_mode: host
+        volumes:
+            - /mnt/data/cloudflare_ssh:/config
+        environment:
+            - TZ=Pacific/Auckland
+            - TUNNEL_URL=ssh://localhost:22
+            - ACCOUNT_ID=${CF_ACCOUNT_ID}
+            - TUNNEL_NAME=larry
+            - TUNNEL_ID=${SSH_TUNNEL_ID}
+            - TUNNEL_SECRET=${SSH_TUNNEL_SECRET}
+
     rclone_serve_backup:
         image: rclone/rclone:1.57.0
         volumes:
