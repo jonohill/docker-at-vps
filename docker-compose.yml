@@ -131,15 +131,16 @@ services:
 
     cloudflare_plex:
         image: jonoh/cloudflared:2021.11.0
+        restart: always
         volumes:
-            - /mnt/data/cloudflare_plex:/home/nonroot/.cloudflared
+            - /mnt/data/cloudflare_plex:/config
         environment:
             - TZ=Pacific/Auckland
-            - NO_AUTOUPDATE=true
             - TUNNEL_URL=http://plex:32400
-            - CF_TUNNEL_ID=${CF_TUNNEL_ID}
-        restart: always
-        command: tunnel run ${CF_TUNNEL_ID}
+            - ACCOUNT_ID=${CF_ACCOUNT_ID}
+            - TUNNEL_NAME=plex
+            - TUNNEL_ID=${PLEX_TUNNEL_ID}
+            - TUNNEL_SECRET=${PLEX_TUNNEL_SECRET}        
 
     rclone_move_media:
         image: rclone/rclone:1.57.0
