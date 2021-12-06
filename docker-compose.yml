@@ -42,7 +42,7 @@ services:
             - TUNNEL_SECRET=${COMPOSE_UP_TUNNEL_SECRET}
 
     tailscale:
-        image: jonoh/tailscale:1.16.1
+        image: jonoh/tailscale:1.18.1
         devices:
             - /dev/net/tun:/dev/net/tun
         volumes:
