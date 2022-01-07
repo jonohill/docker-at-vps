@@ -252,6 +252,19 @@ services:
         ports:
             - 9981:9981
 
+    cloudflare_tvheadend:
+        image: jonoh/cloudflared:2022.1.0
+        restart: always
+        volumes:
+            - /mnt/data/cloudflare_tvheadend:/config
+        environment:
+            - TZ=Pacific/Auckland
+            - TUNNEL_URL=http://tvheadend:9981
+            - ACCOUNT_ID=${CF_ACCOUNT_ID}
+            - TUNNEL_NAME=tvheadend
+            - TUNNEL_ID=${TV_TUNNEL_ID}
+            - TUNNEL_SECRET=${TV_TUNNEL_SECRET}
+
 
     # ~~~~~
     # Other
