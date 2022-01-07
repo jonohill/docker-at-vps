@@ -219,6 +219,40 @@ services:
         environment: 
             - TRANSMISSION_HOST=transmission
 
+    # ~~
+    # TV
+    # ~~
+
+    vpn_nz:
+        image: qmcgaw/gluetun:v3.26.0
+        restart: always
+        cap_add:
+            - NET_ADMIN
+        labels:
+            - autoheal=true
+        environment:
+            - VPNSP=surfshark
+            - OPENVPN_USER=${VPN_USERNAME}
+            - OPENVPN_PASSWORD=${VPN_PASSWORD}
+            - SERVER_HOSTNAME=nz-akl.prod.surfshark.com
+            - HTTPPROXY=on
+
+    tvheadend:
+        image: lscr.io/linuxserver/tvheadend
+        container_name: tvheadend
+        restart: always
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Pacific/Auckland
+            - http_proxy=http://vpn_nz:8888
+            - https_proxy=http://vpn_nz:8888
+        volumes:
+            - /mnt/data/tvheadend:/config
+        ports:
+            - 9981:9981
+
+
     # ~~~~~
     # Other
     # ~~~~~
