@@ -223,8 +223,9 @@ services:
     # TV
     # ~~
 
-    vpn_nz:
+    vpn_tvheadend:
         image: qmcgaw/gluetun:v3.26.0
+        container_name: vpn_tvheadend
         restart: always
         cap_add:
             - NET_ADMIN
@@ -256,7 +257,7 @@ services:
             - /mnt/data/cloudflare_tvheadend:/config
         environment:
             - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://tvheadend:9981
+            - TUNNEL_URL=http://vpn_tvheadend:9981
             - ACCOUNT_ID=${CF_ACCOUNT_ID}
             - TUNNEL_NAME=tvheadend
             - TUNNEL_ID=${TV_TUNNEL_ID}
