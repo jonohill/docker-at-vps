@@ -241,12 +241,11 @@ services:
         image: lscr.io/linuxserver/tvheadend
         container_name: tvheadend
         restart: always
+        network_mode: "service:vpn_nz"
         environment:
             - PUID=1000
             - PGID=1000
             - TZ=Pacific/Auckland
-            - http_proxy=http://vpn_nz:8888
-            - https_proxy=http://vpn_nz:8888
         volumes:
             - /mnt/data/tvheadend:/config
         ports:
