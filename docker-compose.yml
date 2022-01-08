@@ -130,7 +130,7 @@ services:
             - RCLONE_MOUNT_TARGET=/data/plex-media
             - RCLONE_CACHE_MAX_SIZE=25G
             # Antennas
-            - ANTENNAS_URL=http://plex:5004
+            - ANTENNAS_URL=http://localhost:5004
             - TVHEADEND_URL=http://vpn_tvheadend:9981
             - TUNER_COUNT=6
             - DEVICE_UUID=7fb55421-ebfc-4fef-966e-30a706dd4c9e
