@@ -133,6 +133,7 @@ services:
             - ANTENNAS_URL=http://plex:5004
             - TVHEADEND_URL=http://vpn_tvheadend:9981
             - TUNER_COUNT=6
+            - DEVICE_UUID=7fb55421-ebfc-4fef-966e-30a706dd4c9e
         ports: 
             - 32400:32400
         volumes:
