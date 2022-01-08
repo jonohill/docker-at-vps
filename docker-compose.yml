@@ -242,7 +242,7 @@ services:
         image: lscr.io/linuxserver/tvheadend
         container_name: tvheadend
         restart: always
-        network_mode: "service:vpn_nz"
+        network_mode: "service:vpn_tvheadend"
         environment:
             - PUID=1000
             - PGID=1000
