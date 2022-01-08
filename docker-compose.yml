@@ -248,8 +248,6 @@ services:
             - TZ=Pacific/Auckland
         volumes:
             - /mnt/data/tvheadend:/config
-        ports:
-            - 9981:9981
 
     cloudflare_tvheadend:
         image: jonoh/cloudflared:2022.1.0
