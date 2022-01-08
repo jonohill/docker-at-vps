@@ -254,6 +254,12 @@ services:
             - TZ=Pacific/Auckland
         volumes:
             - /mnt/data/tvheadend:/config
+        healthcheck:
+            test: curl -f https://tvheadend.hillnz.com || exit 1
+            interval: 30s
+            timeout: 10s
+            retries: 1
+            start_period: 30s
 
     cloudflare_tvheadend:
         image: jonoh/cloudflared:2022.1.0
