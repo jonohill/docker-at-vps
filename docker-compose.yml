@@ -224,6 +224,18 @@ services:
         environment: 
             - TRANSMISSION_HOST=transmission
 
+    rclone_convert:
+        image: jonoh/rclone-ffmpeg-convert:v0.0.1
+        restart: always
+        volumes:
+            - /mnt/data/rclone_convert:/config
+            - /tmp/rclone_convert:/tmp
+        environment:
+            - RCLONE_MOUNT_DIR=jotta:/plex-media
+            - RCLONE_CONFIG=/config/rclone.conf
+        devices:
+            - /dev/fuse            
+
     # ~~
     # TV
     # ~~
@@ -246,7 +258,7 @@ services:
     tvheadend:
         image: lscr.io/linuxserver/tvheadend
         container_name: tvheadend
-        restart: always
+        restart: always     
         network_mode: "service:vpn_tvheadend"
         environment:
             - PUID=1000
