@@ -258,7 +258,9 @@ services:
     tvheadend:
         image: lscr.io/linuxserver/tvheadend
         container_name: tvheadend
-        restart: always     
+        restart: always    
+        labels:
+            - autoheal=true         
         network_mode: "service:vpn_tvheadend"
         environment:
             - PUID=1000
