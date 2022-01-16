@@ -225,7 +225,7 @@ services:
             - TRANSMISSION_HOST=transmission
 
     rclone_convert:
-        image: jonoh/rclone-ffmpeg-convert:v0.0.3
+        image: jonoh/rclone-ffmpeg-convert:v0.0.4
         restart: always
         volumes:
             - /mnt/data/rclone_convert:/config
@@ -233,6 +233,8 @@ services:
         environment:
             - RCLONE_MOUNT_DIR=jotta:/plex-media
             - RCLONE_CONFIG=/config/rclone.conf
+            - PUID=1001
+            - PGID=1001
         devices:
             - /dev/fuse            
         cap_add:
