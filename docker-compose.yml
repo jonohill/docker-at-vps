@@ -235,6 +235,8 @@ services:
             - RCLONE_CONFIG=/config/rclone.conf
         devices:
             - /dev/fuse            
+        cap_add:
+            - SYS_ADMIN            
 
     # ~~
     # TV
