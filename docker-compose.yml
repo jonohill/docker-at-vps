@@ -392,7 +392,7 @@ services:
 
     yt_cast:
         image: jonoh/yt-cast:0.2.8
-        name: yt_cast
+        container_name: yt_cast
         volumes: 
             - /tmp/yt_cast:/tmp
         environment:
