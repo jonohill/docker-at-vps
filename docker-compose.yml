@@ -391,7 +391,8 @@ services:
         restart: always
 
     yt_cast:
-        image: jonoh/yt-cast:0.2.7
+        image: jonoh/yt-cast:0.2.8
+        name: yt_cast
         volumes: 
             - /tmp/yt_cast:/tmp
         environment:
