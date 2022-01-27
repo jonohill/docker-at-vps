@@ -366,17 +366,25 @@ services:
         restart: always
 
     webtop:
-        image: linuxserver/webtop:ubuntu-xfce
+        image: jonoh/nas-webtop:2022.027.415
         environment:
             - PUID=1000
             - PGID=1000
             - TZ=Pacific/Auckland
+            - RCLONE_MOUNT_TARGET=/config/jotta
+            - RCLONE_MOUNT_DIR=jotta:/
         volumes:
             - /mnt/data/webtop:/config
         ports:
             - 3000:3000
         shm_size: "1gb"
         restart: always
+        devices:
+            - /dev/fuse            
+        cap_add:
+            - SYS_ADMIN            
+        security_opt:
+            - apparmor:unconfined        
 
     cloudflare_webtop:
         image: jonoh/cloudflared:2022.1.2
