@@ -384,7 +384,8 @@ services:
         cap_add:
             - SYS_ADMIN            
         security_opt:
-            - apparmor:unconfined        
+            - apparmor:unconfined     
+            - seccomp:unconfined               
 
     cloudflare_webtop:
         image: jonoh/cloudflared:2022.1.2
