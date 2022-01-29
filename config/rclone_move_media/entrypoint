@@ -18,7 +18,7 @@ while true; do
         files=""
         while true; do
             echo "Waiting for files to stop changing..."
-            new_files="$(find . -type f -print0 | xargs -0 stat -c '%n %Y')"
+            new_files="$(find "$SOURCE" -type f -print0 | xargs -0 stat -c '%n %Y')"
             if [ "$files" != "$new_files" ]; then
                 files="$new_files"
                 sleep 5
