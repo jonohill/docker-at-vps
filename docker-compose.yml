@@ -116,7 +116,7 @@ services:
     # ~~~~~ 
 
     plex:
-        image: jonoh/nas-plex:v0.0.53
+        image: jonoh/nas-plex:v0.0.54
         restart: always
         labels:
             - autoheal=true
