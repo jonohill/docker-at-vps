@@ -203,6 +203,7 @@ services:
             - OPENVPN_PROVIDER=custom
             - OPENVPN_USERNAME=${VPN_USERNAME}
             - OPENVPN_PASSWORD=${VPN_PASSWORD}
+            - TRANSMISSION_DOWNLOAD_QUEUE_SIZE=1
 
     cloudflare_transmission:
         image: jonoh/cloudflared:2022.1.2
@@ -218,7 +219,7 @@ services:
             - TUNNEL_SECRET=${TRANSMISSION_TUNNEL_SECRET}
     
     transmission_cleanup:
-        image: jonoh/transmission-cleanup:v0.0.14
+        image: jonoh/transmission-cleanup:v0.0.18
         restart: always
         volumes:
             - /mnt/data/downloads:/cleanup
