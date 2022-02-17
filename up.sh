@@ -3,5 +3,5 @@
 set -e
 
 git pull
-./compose up -d tailscale || true
+./compose up -d cloudflare_ssh || true
 ./compose up --remove-orphans -d

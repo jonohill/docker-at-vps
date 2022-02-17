@@ -26,7 +26,7 @@ services:
         volumes:
             - /home/ubuntu/compose:/compose
             - /var/run/docker.sock:/var/run/docker.sock
-        command: /compose/up.sh
+        command: git pull
 
     cloudflare_compose_up:
         image: jonoh/cloudflared:2022.1.2
@@ -40,6 +40,16 @@ services:
             - TUNNEL_NAME=compose-up
             - TUNNEL_ID=${COMPOSE_UP_TUNNEL_ID}
             - TUNNEL_SECRET=${COMPOSE_UP_TUNNEL_SECRET}
+
+    compose_forever:
+        image: jonoh/compose-up:v0.0.5
+        restart: always
+        environment:
+            - DOCKER_HOST=unix:///var/run/docker.sock
+        volumes:
+            - /home/ubuntu/compose:/compose
+            - /var/run/docker.sock:/var/run/docker.sock
+        entrypoint: /compose/forever.sh
 
     tailscale:
         image: jonoh/tailscale:1.18.1
@@ -434,13 +444,6 @@ services:
             - TUNNEL_SECRET=${CODE_TUNNEL_SECRET}
         networks:
             - code
-
-    yt-dlp:
-        image: jauderho/yt-dlp:2022.01.21
-        volumes:
-            - /mnt/data/downloads:/downloads
-        networks:
-            - ytdlp
 
     vaultwarden:
         image: vaultwarden/server:1.23.1
