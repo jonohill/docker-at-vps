@@ -2,7 +2,16 @@
 
 set -e
 
+
+up() {
+    ./compose up --remove-orphans -d
+}
+
+
 while true; do
     sleep 30    
-    ./compose up --remove-orphans -d
+    if ! up; then
+        docker system prune --all --force
+        up
+    fi
 done
