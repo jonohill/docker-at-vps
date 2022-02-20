@@ -11,7 +11,7 @@ up() {
 while true; do
     sleep 30    
     if ! up; then
-        docker system prune --all --force
+        docker system prune --force
         up
     fi
 done
