@@ -29,7 +29,7 @@ services:
         command: git pull
 
     cloudflare_compose_up:
-        image: jonoh/cloudflared:2022.1.2
+        image: jonoh/cloudflared:2022.2.1
         restart: always
         volumes:
             - /mnt/data/cloudflare_compose_up:/config
@@ -65,7 +65,7 @@ services:
         restart: always
 
     cloudflare_ssh:
-        image: jonoh/cloudflared:2022.1.2
+        image: jonoh/cloudflared:2022.2.1
         restart: always
         network_mode: host
         volumes:
@@ -160,7 +160,7 @@ services:
             - apparmor:unconfined
 
     cloudflare_plex:
-        image: jonoh/cloudflared:2022.1.2
+        image: jonoh/cloudflared:2022.2.1
         restart: always
         volumes:
             - /mnt/data/cloudflare_plex:/config
@@ -216,7 +216,7 @@ services:
             - TRANSMISSION_DOWNLOAD_QUEUE_SIZE=1
 
     cloudflare_transmission:
-        image: jonoh/cloudflared:2022.1.2
+        image: jonoh/cloudflared:2022.2.1
         restart: always
         volumes:
             - /mnt/data/cloudflare_transmission:/config
@@ -276,7 +276,7 @@ services:
             start_period: 30s
 
     cloudflare_tvheadend:
-        image: jonoh/cloudflared:2022.1.2
+        image: jonoh/cloudflared:2022.2.1
         restart: always
         volumes:
             - /mnt/data/cloudflare_tvheadend:/config
@@ -311,7 +311,7 @@ services:
             - /mnt/data/pgadmin:/var/lib/pgadmin
 
     cloudflare_pgadmin:
-        image: jonoh/cloudflared:2022.1.2
+        image: jonoh/cloudflared:2022.2.1
         restart: always
         environment:
             - TZ=Pacific/Auckland
@@ -382,7 +382,7 @@ services:
             - seccomp:unconfined               
 
     cloudflare_webtop:
-        image: jonoh/cloudflared:2022.1.2
+        image: jonoh/cloudflared:2022.2.1
         volumes:
             - /mnt/data/cloudflare_webtop:/config        
         environment:
@@ -406,7 +406,7 @@ services:
         restart: always
 
     cloudflare_yt_cast:
-        image: jonoh/cloudflared:2022.1.2
+        image: jonoh/cloudflared:2022.2.1
         volumes:
             - /mnt/data/cloudflare_yt_cast:/config
         environment:
@@ -431,7 +431,7 @@ services:
             - code
     
     cloudflare_vscode:
-        image: jonoh/cloudflared:2022.1.2
+        image: jonoh/cloudflared:2022.2.1
         restart: always
         volumes:
             - /mnt/data/cloudflare_vscode:/config
@@ -456,7 +456,7 @@ services:
             - vaultwarden
 
     cloudflare_vaultwarden:
-        image: jonoh/cloudflared:2022.1.2
+        image: jonoh/cloudflared:2022.2.1
         restart: always
         volumes:
             - /mnt/data/cloudflare_vaultwarden:/config
