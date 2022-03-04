@@ -158,6 +158,8 @@ services:
             - /dev/fuse
         security_opt:
             - apparmor:unconfined
+        healthcheck:
+            start_period: 120s
 
     cloudflare_plex:
         image: jonoh/cloudflared:2022.2.1
