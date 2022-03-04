@@ -299,29 +299,29 @@ services:
             - /mnt/data/postgresql/13/data:/var/lib/postgresql/data
         restart: always
 
-    pgadmin:
-        image: dpage/pgadmin4:6.1
-        restart: always
-        environment:
-            - TZ=Pacific/Auckland
-            - PGADMIN_DEFAULT_EMAIL=admin@example.com
-            - PGADMIN_DEFAULT_PASSWORD=password
-            - PGADMIN_DISABLE_POSTFIX=True
-        volumes:
-            - /mnt/data/pgadmin:/var/lib/pgadmin
+    # pgadmin:
+    #     image: dpage/pgadmin4:6.1
+    #     restart: always
+    #     environment:
+    #         - TZ=Pacific/Auckland
+    #         - PGADMIN_DEFAULT_EMAIL=admin@example.com
+    #         - PGADMIN_DEFAULT_PASSWORD=password
+    #         - PGADMIN_DISABLE_POSTFIX=True
+    #     volumes:
+    #         - /mnt/data/pgadmin:/var/lib/pgadmin
 
-    cloudflare_pgadmin:
-        image: jonoh/cloudflared:2022.2.1
-        restart: always
-        environment:
-            - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://pgadmin:80
-            - ACCOUNT_ID=${CF_ACCOUNT_ID}
-            - TUNNEL_NAME=pgadmin
-            - TUNNEL_ID=${PGADMIN_TUNNEL_ID}
-            - TUNNEL_SECRET=${PGADMIN_TUNNEL_SECRET}
-        volumes:
-            - /mnt/data/cloudflare_pgadmin:/config        
+    # cloudflare_pgadmin:
+    #     image: jonoh/cloudflared:2022.2.1
+    #     restart: always
+    #     environment:
+    #         - TZ=Pacific/Auckland
+    #         - TUNNEL_URL=http://pgadmin:80
+    #         - ACCOUNT_ID=${CF_ACCOUNT_ID}
+    #         - TUNNEL_NAME=pgadmin
+    #         - TUNNEL_ID=${PGADMIN_TUNNEL_ID}
+    #         - TUNNEL_SECRET=${PGADMIN_TUNNEL_SECRET}
+    #     volumes:
+    #         - /mnt/data/cloudflare_pgadmin:/config        
 
     radio_db:
         image: jonoh/radio_db:0.3.28
@@ -359,40 +359,40 @@ services:
             - LOG_LEVEL=WARN # Or INFO, OR DEBUG, etc.
         restart: always
 
-    webtop:
-        image: jonoh/nas-webtop:2022.027.450
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Pacific/Auckland
-            - RCLONE_MOUNT_TARGET=/config/jotta
-            - RCLONE_MOUNT_DIR=jotta:/
-        volumes:
-            - /mnt/data/webtop:/config
-        ports:
-            - 3000:3000
-        shm_size: "1gb"
-        restart: always
-        devices:
-            - /dev/fuse            
-        cap_add:
-            - SYS_ADMIN            
-        security_opt:
-            - apparmor:unconfined     
-            - seccomp:unconfined               
+    # webtop:
+    #     image: jonoh/nas-webtop:2022.027.450
+    #     environment:
+    #         - PUID=1000
+    #         - PGID=1000
+    #         - TZ=Pacific/Auckland
+    #         - RCLONE_MOUNT_TARGET=/config/jotta
+    #         - RCLONE_MOUNT_DIR=jotta:/
+    #     volumes:
+    #         - /mnt/data/webtop:/config
+    #     ports:
+    #         - 3000:3000
+    #     shm_size: "1gb"
+    #     restart: always
+    #     devices:
+    #         - /dev/fuse            
+    #     cap_add:
+    #         - SYS_ADMIN            
+    #     security_opt:
+    #         - apparmor:unconfined     
+    #         - seccomp:unconfined               
 
-    cloudflare_webtop:
-        image: jonoh/cloudflared:2022.2.1
-        volumes:
-            - /mnt/data/cloudflare_webtop:/config        
-        environment:
-            - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://webtop:3000
-            - ACCOUNT_ID=${CF_ACCOUNT_ID}
-            - TUNNEL_NAME=webtop
-            - TUNNEL_ID=${WEBTOP_TUNNEL_ID}
-            - TUNNEL_SECRET=${WEBTOP_TUNNEL_SECRET}
-        restart: always
+    # cloudflare_webtop:
+    #     image: jonoh/cloudflared:2022.2.1
+    #     volumes:
+    #         - /mnt/data/cloudflare_webtop:/config        
+    #     environment:
+    #         - TZ=Pacific/Auckland
+    #         - TUNNEL_URL=http://webtop:3000
+    #         - ACCOUNT_ID=${CF_ACCOUNT_ID}
+    #         - TUNNEL_NAME=webtop
+    #         - TUNNEL_ID=${WEBTOP_TUNNEL_ID}
+    #         - TUNNEL_SECRET=${WEBTOP_TUNNEL_SECRET}
+    #     restart: always
 
     yt_cast:
         image: jonoh/yt-cast:0.4.9
@@ -418,54 +418,54 @@ services:
             - TUNNEL_SECRET=${YT_CAST_TUNNEL_SECRET}
         restart: always
 
-    vscode:
-        image: jonoh/vscode:v0.0.5
-        restart: always
-        volumes:
-            - /mnt/data:/mnt/data
-            - /tmp:/tmp
-            - /mnt/data/repos:/home/workspace            
-        environment:
-            - TZ=Pacific/Auckland
-        networks:
-            - code
+    # vscode:
+    #     image: jonoh/vscode:v0.0.5
+    #     restart: always
+    #     volumes:
+    #         - /mnt/data:/mnt/data
+    #         - /tmp:/tmp
+    #         - /mnt/data/repos:/home/workspace            
+    #     environment:
+    #         - TZ=Pacific/Auckland
+    #     networks:
+    #         - code
     
-    cloudflare_vscode:
-        image: jonoh/cloudflared:2022.2.1
-        restart: always
-        volumes:
-            - /mnt/data/cloudflare_vscode:/config
-        environment:
-            - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://vscode:3000
-            - ACCOUNT_ID=${CF_ACCOUNT_ID}
-            - TUNNEL_NAME=code
-            - TUNNEL_ID=${CODE_TUNNEL_ID}
-            - TUNNEL_SECRET=${CODE_TUNNEL_SECRET}
-        networks:
-            - code
+    # cloudflare_vscode:
+    #     image: jonoh/cloudflared:2022.2.1
+    #     restart: always
+    #     volumes:
+    #         - /mnt/data/cloudflare_vscode:/config
+    #     environment:
+    #         - TZ=Pacific/Auckland
+    #         - TUNNEL_URL=http://vscode:3000
+    #         - ACCOUNT_ID=${CF_ACCOUNT_ID}
+    #         - TUNNEL_NAME=code
+    #         - TUNNEL_ID=${CODE_TUNNEL_ID}
+    #         - TUNNEL_SECRET=${CODE_TUNNEL_SECRET}
+    #     networks:
+    #         - code
 
-    vaultwarden:
-        image: vaultwarden/server:1.24.0
-        restart: always
-        volumes:
-            - /mnt/data/vaultwarden:/data
-        environment:
-            - DISABLE_ADMIN_TOKEN=true
-        networks:
-            - vaultwarden
+    # vaultwarden:
+    #     image: vaultwarden/server:1.24.0
+    #     restart: always
+    #     volumes:
+    #         - /mnt/data/vaultwarden:/data
+    #     environment:
+    #         - DISABLE_ADMIN_TOKEN=true
+    #     networks:
+    #         - vaultwarden
 
-    cloudflare_vaultwarden:
-        image: jonoh/cloudflared:2022.2.1
-        restart: always
-        volumes:
-            - /mnt/data/cloudflare_vaultwarden:/config
-        environment:
-            - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://vaultwarden:80
-            - ACCOUNT_ID=${CF_ACCOUNT_ID}
-            - TUNNEL_NAME=vault
-            - TUNNEL_ID=${VAULT_TUNNEL_ID}
-            - TUNNEL_SECRET=${VAULT_TUNNEL_SECRET}
-        networks:
-          - vaultwarden
+    # cloudflare_vaultwarden:
+    #     image: jonoh/cloudflared:2022.2.1
+    #     restart: always
+    #     volumes:
+    #         - /mnt/data/cloudflare_vaultwarden:/config
+    #     environment:
+    #         - TZ=Pacific/Auckland
+    #         - TUNNEL_URL=http://vaultwarden:80
+    #         - ACCOUNT_ID=${CF_ACCOUNT_ID}
+    #         - TUNNEL_NAME=vault
+    #         - TUNNEL_ID=${VAULT_TUNNEL_ID}
+    #         - TUNNEL_SECRET=${VAULT_TUNNEL_SECRET}
+    #     networks:
+    #       - vaultwarden
