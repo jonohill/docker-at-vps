@@ -29,7 +29,7 @@ services:
         command: git pull
 
     cloudflare_compose_up:
-        image: jonoh/cloudflared:2022.2.1
+        image: jonoh/cloudflared:2022.3.0
         restart: always
         volumes:
             - /home/jonohill/data/cloudflare_compose_up:/config
@@ -65,7 +65,7 @@ services:
         restart: always
 
     cloudflare_ssh:
-        image: jonoh/cloudflared:2022.2.1
+        image: jonoh/cloudflared:2022.3.0
         restart: always
         network_mode: host
         volumes:
@@ -407,7 +407,7 @@ services:
         restart: always
 
     cloudflare_yt_cast:
-        image: jonoh/cloudflared:2022.2.1
+        image: jonoh/cloudflared:2022.3.0
         volumes:
             - /home/jonohill/data/cloudflare_yt_cast:/config
         environment:
