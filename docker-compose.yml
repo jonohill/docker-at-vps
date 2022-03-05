@@ -237,59 +237,6 @@ services:
         environment: 
             - TRANSMISSION_HOST=transmission
 
-    # ~~
-    # TV
-    # ~~
-
-    vpn_tvheadend:
-        image: qmcgaw/gluetun:v3.27.0
-        container_name: vpn_tvheadend
-        restart: always
-        cap_add:
-            - NET_ADMIN
-        labels:
-            - autoheal=true
-        environment:
-            - VPNSP=surfshark
-            - OPENVPN_USER=${VPN_USERNAME}
-            - OPENVPN_PASSWORD=${VPN_PASSWORD}
-            - SERVER_HOSTNAME=nz-akl.prod.surfshark.com
-            - HTTPPROXY=on
-
-    tvheadend:
-        image: lscr.io/linuxserver/tvheadend
-        container_name: tvheadend
-        restart: always    
-        labels:
-            - autoheal=true         
-        network_mode: "service:vpn_tvheadend"
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Pacific/Auckland
-        volumes:
-            - /home/jonohill/data/tvheadend:/config
-        healthcheck:
-            test: curl -f https://tvheadend.hillnz.com || exit 1
-            interval: 30s
-            timeout: 10s
-            retries: 1
-            start_period: 30s
-
-    cloudflare_tvheadend:
-        image: jonoh/cloudflared:2022.2.1
-        restart: always
-        volumes:
-            - /home/jonohill/data/cloudflare_tvheadend:/config
-        environment:
-            - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://vpn_tvheadend:9981
-            - ACCOUNT_ID=${CF_ACCOUNT_ID}
-            - TUNNEL_NAME=tvheadend
-            - TUNNEL_ID=${TV_TUNNEL_ID}
-            - TUNNEL_SECRET=${TV_TUNNEL_SECRET}
-
-
     # ~~~~~
     # Other
     # ~~~~~
