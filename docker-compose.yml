@@ -78,39 +78,39 @@ services:
             - TUNNEL_ID=${SSH_TUNNEL_ID}
             - TUNNEL_SECRET=${SSH_TUNNEL_SECRET}
 
-    rclone_serve_backup:
-        image: rclone/rclone:1.57.0
-        volumes:
-            - /mnt/data/rclone_serve_backup:/config
-            - /tmp/caches/rclone_serve_backup:/root/.cache
-            - /home/ubuntu/compose/config/rclone_serve_backup/entrypoint.sh:/entrypoint.sh
-        entrypoint: /entrypoint.sh
-        environment: 
-            - RCLONE_CONFIG_SEED=${RCLONE_CONFIG_SEED}
-            - RCLONE_SOURCE=jotta:/backup
-        restart: always
-        networks:
-            - backup
+    # rclone_serve_backup:
+    #     image: rclone/rclone:1.57.0
+    #     volumes:
+    #         - /mnt/data/rclone_serve_backup:/config
+    #         - /tmp/caches/rclone_serve_backup:/root/.cache
+    #         - /home/ubuntu/compose/config/rclone_serve_backup/entrypoint.sh:/entrypoint.sh
+    #     entrypoint: /entrypoint.sh
+    #     environment: 
+    #         - RCLONE_CONFIG_SEED=${RCLONE_CONFIG_SEED}
+    #         - RCLONE_SOURCE=jotta:/backup
+    #     restart: always
+    #     networks:
+    #         - backup
 
-    duplicacy:
-        image: jonoh/duplicacy:2.7.2
-        environment:
-            - BACKUP_CRON=1 * * * *
-            - RUN_JOB_IMMEDIATELY=yes
-            - PRUNE_CRON=34 1 * * sun
-            - SNAPSHOT_ID=larry
-            - DUPLICACY_PASSWORD=${DUPLICACY_PASSWORD}
-            - STORAGE_URL=sftp://rclone_serve_backup:2022//duplicacy
-            - JOB_RANDOM_DELAY=300
-            - PRUNE_KEEP_POLICIES=0:360;30:180;7:30;1:7
-            - PRE_BACKUP_SCRIPT=/usr/local/bin/pre_backup.sh
-        volumes:
-            - /mnt/data:/data
-            - /mnt/data/duplicacy_naspool/config:/config
-            - /home/ubuntu/compose/config/duplicacy/pre_backup.sh:/usr/local/bin/pre_backup.sh
-        restart: always
-        networks:
-            - backup
+    # duplicacy:
+    #     image: jonoh/duplicacy:2.7.2
+    #     environment:
+    #         - BACKUP_CRON=1 * * * *
+    #         - RUN_JOB_IMMEDIATELY=yes
+    #         - PRUNE_CRON=34 1 * * sun
+    #         - SNAPSHOT_ID=larry
+    #         - DUPLICACY_PASSWORD=${DUPLICACY_PASSWORD}
+    #         - STORAGE_URL=sftp://rclone_serve_backup:2022//duplicacy
+    #         - JOB_RANDOM_DELAY=300
+    #         - PRUNE_KEEP_POLICIES=0:360;30:180;7:30;1:7
+    #         - PRE_BACKUP_SCRIPT=/usr/local/bin/pre_backup.sh
+    #     volumes:
+    #         - /mnt/data:/data
+    #         - /mnt/data/duplicacy_naspool/config:/config
+    #         - /home/ubuntu/compose/config/duplicacy/pre_backup.sh:/usr/local/bin/pre_backup.sh
+    #     restart: always
+    #     networks:
+    #         - backup
 
     autoheal:
         image: willfarrell/autoheal:1.2.0
@@ -126,53 +126,53 @@ services:
     # Media
     # ~~~~~ 
 
-    plex:
-        image: jonoh/nas-plex:v0.0.56
-        restart: always
-        labels:
-            - autoheal=true
-        environment:
-            - TZ=Pacific/Auckland
-            - HOSTNAME=larry
-            - PLEX_CLAIM=${PLEX_CLAIM}
-            - INCOMING_DIR=/data/incoming
-            - RCLONE_MOUNT_DIR=jotta:/plex-media
-            - RCLONE_MOUNT_CACHE_DIR=/caches/rclone_plex
-            - RCLONE_MOUNT_TARGET=/data/plex-media
-            - RCLONE_CACHE_MAX_SIZE=25G
-            # Antennas
-            - ANTENNAS_URL=http://localhost:5004
-            - TVHEADEND_URL=http://vpn_tvheadend:9981
-            - TUNER_COUNT=6
-            - DEVICE_UUID=7fb55421-ebfc-4fef-966e-30a706dd4c9e
-        ports: 
-            - 32400:32400
-        volumes:
-            - /mnt/data/plex:/config
-            - /tmp/plex-transcode:/transcode
-            - /tmp:/tmp
-            - /tmp/caches/plex:/caches/rclone_plex
-        cap_add:
-            - SYS_ADMIN
-        devices:
-            - /dev/fuse
-        security_opt:
-            - apparmor:unconfined
-        healthcheck:
-            start_period: 120s
+    # plex:
+    #     image: jonoh/nas-plex:v0.0.56
+    #     restart: always
+    #     labels:
+    #         - autoheal=true
+    #     environment:
+    #         - TZ=Pacific/Auckland
+    #         - HOSTNAME=larry
+    #         - PLEX_CLAIM=${PLEX_CLAIM}
+    #         - INCOMING_DIR=/data/incoming
+    #         - RCLONE_MOUNT_DIR=jotta:/plex-media
+    #         - RCLONE_MOUNT_CACHE_DIR=/caches/rclone_plex
+    #         - RCLONE_MOUNT_TARGET=/data/plex-media
+    #         - RCLONE_CACHE_MAX_SIZE=25G
+    #         # Antennas
+    #         - ANTENNAS_URL=http://localhost:5004
+    #         - TVHEADEND_URL=http://vpn_tvheadend:9981
+    #         - TUNER_COUNT=6
+    #         - DEVICE_UUID=7fb55421-ebfc-4fef-966e-30a706dd4c9e
+    #     ports: 
+    #         - 32400:32400
+    #     volumes:
+    #         - /mnt/data/plex:/config
+    #         - /tmp/plex-transcode:/transcode
+    #         - /tmp:/tmp
+    #         - /tmp/caches/plex:/caches/rclone_plex
+    #     cap_add:
+    #         - SYS_ADMIN
+    #     devices:
+    #         - /dev/fuse
+    #     security_opt:
+    #         - apparmor:unconfined
+    #     healthcheck:
+    #         start_period: 120s
 
-    cloudflare_plex:
-        image: jonoh/cloudflared:2022.2.1
-        restart: always
-        volumes:
-            - /mnt/data/cloudflare_plex:/config
-        environment:
-            - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://plex:32400
-            - ACCOUNT_ID=${CF_ACCOUNT_ID}
-            - TUNNEL_NAME=plex
-            - TUNNEL_ID=${PLEX_TUNNEL_ID}
-            - TUNNEL_SECRET=${PLEX_TUNNEL_SECRET}        
+    # cloudflare_plex:
+    #     image: jonoh/cloudflared:2022.2.1
+    #     restart: always
+    #     volumes:
+    #         - /mnt/data/cloudflare_plex:/config
+    #     environment:
+    #         - TZ=Pacific/Auckland
+    #         - TUNNEL_URL=http://plex:32400
+    #         - ACCOUNT_ID=${CF_ACCOUNT_ID}
+    #         - TUNNEL_NAME=plex
+    #         - TUNNEL_ID=${PLEX_TUNNEL_ID}
+    #         - TUNNEL_SECRET=${PLEX_TUNNEL_SECRET}        
 
     # rclone_move_media:
     #     image: rclone/rclone:1.57.0
@@ -242,53 +242,53 @@ services:
     # TV
     # ~~
 
-    vpn_tvheadend:
-        image: qmcgaw/gluetun:v3.27.0
-        container_name: vpn_tvheadend
-        restart: always
-        cap_add:
-            - NET_ADMIN
-        labels:
-            - autoheal=true
-        environment:
-            - VPNSP=surfshark
-            - OPENVPN_USER=${VPN_USERNAME}
-            - OPENVPN_PASSWORD=${VPN_PASSWORD}
-            - SERVER_HOSTNAME=nz-akl.prod.surfshark.com
-            - HTTPPROXY=on
+    # vpn_tvheadend:
+    #     image: qmcgaw/gluetun:v3.27.0
+    #     container_name: vpn_tvheadend
+    #     restart: always
+    #     cap_add:
+    #         - NET_ADMIN
+    #     labels:
+    #         - autoheal=true
+    #     environment:
+    #         - VPNSP=surfshark
+    #         - OPENVPN_USER=${VPN_USERNAME}
+    #         - OPENVPN_PASSWORD=${VPN_PASSWORD}
+    #         - SERVER_HOSTNAME=nz-akl.prod.surfshark.com
+    #         - HTTPPROXY=on
 
-    tvheadend:
-        image: lscr.io/linuxserver/tvheadend
-        container_name: tvheadend
-        restart: always    
-        labels:
-            - autoheal=true         
-        network_mode: "service:vpn_tvheadend"
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Pacific/Auckland
-        volumes:
-            - /mnt/data/tvheadend:/config
-        healthcheck:
-            test: curl -f https://tvheadend.hillnz.com || exit 1
-            interval: 30s
-            timeout: 10s
-            retries: 1
-            start_period: 30s
+    # tvheadend:
+    #     image: lscr.io/linuxserver/tvheadend
+    #     container_name: tvheadend
+    #     restart: always    
+    #     labels:
+    #         - autoheal=true         
+    #     network_mode: "service:vpn_tvheadend"
+    #     environment:
+    #         - PUID=1000
+    #         - PGID=1000
+    #         - TZ=Pacific/Auckland
+    #     volumes:
+    #         - /mnt/data/tvheadend:/config
+    #     healthcheck:
+    #         test: curl -f https://tvheadend.hillnz.com || exit 1
+    #         interval: 30s
+    #         timeout: 10s
+    #         retries: 1
+    #         start_period: 30s
 
-    cloudflare_tvheadend:
-        image: jonoh/cloudflared:2022.2.1
-        restart: always
-        volumes:
-            - /mnt/data/cloudflare_tvheadend:/config
-        environment:
-            - TZ=Pacific/Auckland
-            - TUNNEL_URL=http://vpn_tvheadend:9981
-            - ACCOUNT_ID=${CF_ACCOUNT_ID}
-            - TUNNEL_NAME=tvheadend
-            - TUNNEL_ID=${TV_TUNNEL_ID}
-            - TUNNEL_SECRET=${TV_TUNNEL_SECRET}
+    # cloudflare_tvheadend:
+    #     image: jonoh/cloudflared:2022.2.1
+    #     restart: always
+    #     volumes:
+    #         - /mnt/data/cloudflare_tvheadend:/config
+    #     environment:
+    #         - TZ=Pacific/Auckland
+    #         - TUNNEL_URL=http://vpn_tvheadend:9981
+    #         - ACCOUNT_ID=${CF_ACCOUNT_ID}
+    #         - TUNNEL_NAME=tvheadend
+    #         - TUNNEL_ID=${TV_TUNNEL_ID}
+    #         - TUNNEL_SECRET=${TV_TUNNEL_SECRET}
 
 
     # ~~~~~
