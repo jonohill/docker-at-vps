@@ -1,6 +1,6 @@
-# docker-at-larrys
+# docker-at-vps
 
-docker-compose configuration for managing my personal box on Oracle Cloud.
+docker-compose configuration for managing my vps.
 
 Use what you like, but it's not designed to be a reusable configuration.
 
@@ -24,10 +24,3 @@ export SOPS_AGE_KEY_FILE=/path/to/key.txt
 sops -d secrets.enc.env >secrets.env
 ```
 
-## TODO
-
-- ~tailscale~
-- ~backup~
-- ~jotta~
-- ~plex~
-- _cloudflare tunnel_
