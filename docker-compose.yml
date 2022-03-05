@@ -174,29 +174,29 @@ services:
             - TUNNEL_ID=${PLEX_TUNNEL_ID}
             - TUNNEL_SECRET=${PLEX_TUNNEL_SECRET}        
 
-    rclone_move_media:
-        image: rclone/rclone:1.57.0
-        volumes:
-            - /mnt/data/tmp/plex-media:/source
-            - /mnt/data/rclone_move_media:/config
-            - /home/ubuntu/compose/config/rclone_move_media/entrypoint:/entrypoint
-        environment:
-            - RCLONE_CONFIG_SEED=${RCLONE_MOVE_MEDIA_CONF}
-            - SOURCE=/source
-            - DEST=jotta:/plex-media
-        entrypoint: /entrypoint
-        restart: always
+    # rclone_move_media:
+    #     image: rclone/rclone:1.57.0
+    #     volumes:
+    #         - /mnt/data/tmp/plex-media:/source
+    #         - /mnt/data/rclone_move_media:/config
+    #         - /home/ubuntu/compose/config/rclone_move_media/entrypoint:/entrypoint
+    #     environment:
+    #         - RCLONE_CONFIG_SEED=${RCLONE_MOVE_MEDIA_CONF}
+    #         - SOURCE=/source
+    #         - DEST=jotta:/plex-media
+    #     entrypoint: /entrypoint
+    #     restart: always
 
-    filebot:
-        image: jonoh/nas-filebot:v0.0.10
-        environment:
-            - TZ=Pacific/Auckland
-            - LANG=C.UTF-8
-        volumes:
-            - /mnt/data/filebot:/config
-            - /mnt/data/downloads:/input
-            - /mnt/data/tmp/plex-media:/output
-        restart: always
+    # filebot:
+    #     image: jonoh/nas-filebot:v0.0.10
+    #     environment:
+    #         - TZ=Pacific/Auckland
+    #         - LANG=C.UTF-8
+    #     volumes:
+    #         - /mnt/data/filebot:/config
+    #         - /mnt/data/downloads:/input
+    #         - /mnt/data/tmp/plex-media:/output
+    #     restart: always
 
     # transmission:
     #     image: haugene/transmission-openvpn:4.0
