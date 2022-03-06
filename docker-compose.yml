@@ -242,7 +242,7 @@ services:
     # ~~~~~
 
     postgres:
-        image: postgres:13.6
+        image: postgres:14.2
         volumes:
             - /home/jonohill/data/postgresql/13/data:/var/lib/postgresql/data
         restart: always
