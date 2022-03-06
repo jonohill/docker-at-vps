@@ -230,7 +230,7 @@ services:
             - TUNNEL_SECRET=${TRANSMISSION_TUNNEL_SECRET}
     
     transmission_cleanup:
-        image: jonoh/transmission-cleanup:v0.0.18
+        image: jonoh/transmission-cleanup:v0.0.19
         restart: always
         volumes:
             - /home/jonohill/data/downloads:/cleanup
